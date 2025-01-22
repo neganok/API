@@ -1,18 +1,14 @@
-# Use the base Alpine Linux image
-FROM alpine:latest
+# Use the official Ubuntu minimal base image
+FROM ubuntu:20.04
 
-# Set environment variables
-ENV NODE_VERSION=20.x
+# Set environment variables to avoid interactive prompts during installation
+ENV DEBIAN_FRONTEND=noninteractive
 
-# Install dependencies and required packages
-RUN apk update && apk add --no-cache bash curl \
-    && apk add --no-cache --virtual .build-deps build-base python3 python3-dev py3-pip \
-    && apk add --no-cache zip git tmux htop speedtest-cli screen \
-    && curl -sL https://deb.nodesource.com/setup_${NODE_VERSION} | bash - \
-    && apk add --no-cache nodejs \
-    && npm install -g npm \
-    && apk del .build-deps \
-    && rm -rf /var/cache/apk/*
+# Update and install minimal required packages
+RUN apt update -y && apt install -y --no-install-recommends \
+    bash curl \
+    && apt clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # Set the default shell to bash
 CMD ["/bin/bash"]
