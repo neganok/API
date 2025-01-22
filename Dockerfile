@@ -10,7 +10,7 @@ RUN apt update -y && apt install -y --no-install-recommends \
     && apt-get install -y curl \
     && curl -sL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs \
-    && npm install -g colors set-cookie-parser request hpack axios chalk chalk@2 \
+    && npm install -g colors set-cookie-parser request hpack axios chalk chalk@2 express \
     && apt clean \
     && rm -rf /var/lib/apt/lists/*
 
