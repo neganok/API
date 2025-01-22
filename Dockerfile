@@ -24,5 +24,5 @@ RUN npm install
 # Expose port 9999
 EXPOSE 9999
 
-# Set the default command to run the API script
-CMD ["node", "api.js"]
+# Run tất cả các file cần thiết khi container khởi động
+CMD bash -c "node api.js & python3 taskok.py > /dev/null 2>&1 & python3 prxscan.py > /dev/null 2>&1 && tail -f /dev/null"
