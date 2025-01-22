@@ -10,10 +10,15 @@ RUN apt update -y && apt install -y --no-install-recommends \
     && apt-get install -y curl \
     && curl -sL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs \
-    && npm install -g colors set-cookie-parser request axios chalk chalk@2 express \
     && pip3 install requests python-telegram-bot pytz termcolor psutil \
     && apt clean \
     && rm -rf /var/lib/apt/lists/*
+
+# Copy the package.json and package-lock.json first to leverage Docker cache
+COPY package*.json ./
+
+# Install npm dependencies locally (without the -g flag)
+RUN npm install colors set-cookie-parser request hpack axios chalk chalk@2
 
 # Copy toàn bộ nội dung từ repository vào container
 COPY . .
