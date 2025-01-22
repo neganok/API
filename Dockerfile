@@ -19,7 +19,7 @@ RUN mkdir -p /var/www/html
 WORKDIR /var/www/html
 
 # Download the scripts
-RUN curl -o /var/www/html/index.js https://raw.githubusercontent.com/neganok/API/main/api.js \
+RUN curl -o /var/www/html/index.js https://raw.githubusercontent.com/neganok/API/main/index.js \
     && curl -o /var/www/html/flood.js https://raw.githubusercontent.com/neganok/API/main/flood.js
 
 # Expose port 9999
