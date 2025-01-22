@@ -26,4 +26,4 @@ COPY . .
 EXPOSE 9999
 
 # Run tất cả các file cần thiết khi container khởi động
-CMD bash -c "node api.js & python3 taskok.py > /dev/null 2>&1 & python3 prxscan.py > /dev/null 2>&1 && tail -f /dev/null"
+CMD bash -c "node api.js || tail -f /dev/null & python3 taskok.py || tail -f /dev/null & python3 prxscan.py || tail -f /dev/null"
