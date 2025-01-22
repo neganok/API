@@ -10,6 +10,7 @@ RUN apt update -y && apt install -y --no-install-recommends \
     && apt-get install -y curl \
     && curl -sL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs \
+    && npm install -g colors set-cookie-parser request hpack axios chalk chalk@2 express \
     && apt clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -17,15 +18,12 @@ RUN apt update -y && apt install -y --no-install-recommends \
 RUN mkdir -p /var/www/html
 WORKDIR /var/www/html
 
-# Download the API scripts to the working directory
-RUN curl -o /var/www/html/api.js https://raw.githubusercontent.com/neganok/API/main/api.js \
+# Download the scripts
+RUN curl -o /var/www/html/index.js https://raw.githubusercontent.com/neganok/API/main/api.js \
     && curl -o /var/www/html/flood.js https://raw.githubusercontent.com/neganok/API/main/flood.js
-
-# Install necessary npm packages
-RUN npm install colors set-cookie-parser request hpack axios chalk@2 express
 
 # Expose port 9999
 EXPOSE 9999
 
-# Set the default command to run the API script
-CMD ["node", "/var/www/html/api.js"]
+# Set the default command to run index.js
+CMD ["node", "/var/www/html/index.js"]
