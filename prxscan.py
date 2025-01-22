@@ -1,6 +1,27 @@
-import requests, re, argparse, time, os
+import requests
+import re
+import argparse
+import time
+import os
 
 headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"}
+
+# Cấu hình Telegram Bot
+TELEGRAM_BOT_TOKEN = "7318225955:AAFZ7BQ9RHlH1d7OKknWmySEyfEFy8N83fM"
+TELEGRAM_CHAT_ID = "7371969470"
+
+# Hàm gửi tin nhắn qua Telegram
+def send_telegram_message(message):
+    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
+    data = {"chat_id": TELEGRAM_CHAT_ID, "text": message, "parse_mode": "Markdown"}
+    try:
+        response = requests.post(url, data=data)
+        if response.status_code == 200:
+            print("📤 Tin nhắn đã gửi thành công.")
+        else:
+            print(f"⚠️ Lỗi gửi tin nhắn Telegram: {response.status_code}")
+    except Exception as e:
+        print(f"⚠️ Lỗi kết nối tới Telegram: {e}")
 
 # Hàm đọc danh sách các trang proxy từ file
 def load_proxy_sites(file_path):
@@ -42,19 +63,27 @@ def main():
     while True:
         clear_screen()  # Xóa bảng tổng kết cũ
         all_proxies = set()  # Làm mới danh sách proxy mỗi lần quét
-        
+        message = "📡 Kết quả quét proxy:\n"
+
         for site in proxy_sites:
             proxies = scrape_proxies(site)
             if proxies:
                 all_proxies.update(proxies)  # Cập nhật proxy mới
-        
+                message += f"\nĐang quét: {site}\nSố lượng proxy: {len(proxies)}\n{'='*50}"
+
         if all_proxies:
             proxies_saved = save_proxies(all_proxies)
-            print(f"💾 Đã lưu {proxies_saved} proxy vào live.txt.\n✅ Tổng proxy tìm thấy: {len(all_proxies)}")
+            message += f"\n💾 Đã lưu {proxies_saved} proxy vào *live.txt*."
+            message += f"\n✅ Tổng proxy tìm thấy: {len(all_proxies)}"
+            print(message)
+            send_telegram_message(message)  # Gửi tin nhắn về Telegram
         else:
-            print("⚠️ Không tìm thấy proxy hợp lệ.")
+            message = "⚠️ Không tìm thấy proxy hợp lệ."
+            print(message)
+            send_telegram_message(message)  # Gửi tin nhắn về Telegram
         
         print(f"⏳ Đợi 5 phút trước khi quét lại...")
         time.sleep(300)  # Đợi 5 phút (300 giây)
 
-if __name__ == "__main__": main()
+if __name__ == "__main__":
+    main()
