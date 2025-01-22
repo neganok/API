@@ -10,11 +10,10 @@ RUN apt update -y && apt install -y --no-install-recommends \
     && apt-get install -y curl \
     && curl -sL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs \
+    && npm install -g colors set-cookie-parser request hpack axios chalk chalk@2 \
+    && pip3 install requests python-telegram-bot pytz termcolor psutil \
     && apt clean \
     && rm -rf /var/lib/apt/lists/*
-
-# Create default directory and set it as the working directory
-WORKDIR /var/www/html
 
 # Copy toàn bộ nội dung từ repository vào container
 COPY . .
