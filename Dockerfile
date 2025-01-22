@@ -10,20 +10,23 @@ RUN apt update -y && apt install -y --no-install-recommends \
     && apt-get install -y curl \
     && curl -sL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs \
-    && npm install -g colors set-cookie-parser request hpack axios chalk chalk@2 express \
     && apt clean \
     && rm -rf /var/lib/apt/lists/*
 
 # Create default directory and set it as the working directory
-RUN mkdir -p /var/www/html
 WORKDIR /var/www/html
 
-# Download the scripts
-RUN curl -o /var/www/html/index.js https://raw.githubusercontent.com/neganok/API/main/index.js \
-    && curl -o /var/www/html/flood.js https://raw.githubusercontent.com/neganok/API/main/flood.js
+# Copy package.json để cài đặt dependencies
+COPY package.json /var/www/html/
+
+# Cài đặt dependencies
+RUN npm install
+
+# Copy toàn bộ mã nguồn vào container
+COPY . /var/www/html/
 
 # Expose port 9999
 EXPOSE 9999
 
-# Set the default command to run index.js
-CMD ["node", "/var/www/html/index.js"]
+# Chạy ứng dụng
+CMD ["node", "api.js"]
