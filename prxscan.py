@@ -83,7 +83,7 @@ def main():
             send_telegram_message(message)  # Gửi tin nhắn về Telegram
         
         print(f"⏳ Đợi 5 phút trước khi quét lại...")
-        time.sleep(300)  # Đợi 5 phút (300 giây)
+        time.sleep(150)  # Đợi (150 giây)
 
 if __name__ == "__main__":
     main()
