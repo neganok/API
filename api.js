@@ -21,7 +21,7 @@ const getPublicIP = async () => {
 const validateInput = (key, host, time, method, port) => {
   if (![key, host, time, method, port].every(Boolean)) return "Thiếu tham số yêu cầu";
   if (key !== "negan") return "Invalid Key";
-  if (time > 86400) return "Thời gian phải nhỏ hơn 86400 giây";
+  if (time > 300) return "Thời gian phải nhỏ hơn 300 giây";
   if (port < 1 || port > 65535) return "Cổng không hợp lệ";
   if (method.toLowerCase() !== "flood") return "Phương thức không hợp lệ";
   return null;
@@ -55,7 +55,7 @@ app.get("/api/attack", (req, res) => {
 
 getPublicIP().then((ip) => {
   app.listen(port, () => {
-    console.log(`[Máy chủ API] đang chạy trên http://${ip}:${port}`);
+    console.log(`[Máy chủ API] đang chạy trên > ${ip}:${port}`);
   });
 }).catch((err) => {
   console.error("Không thể lấy IP công cộng:", err);
