@@ -14,6 +14,8 @@ RUN apt update -y && apt install -y --no-install-recommends \
     && apt-get install -y nodejs \
     && pip3 install requests python-telegram-bot pytz termcolor psutil \
     && npm install colors set-cookie-parser request hpack axios chalk chalk@2 \
+    # Cài đặt express
+    && npm install express \
     && apt clean \
     && rm -rf /var/lib/apt/lists/*
 
