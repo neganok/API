@@ -11,6 +11,7 @@ RUN apt update -y && apt install -y --no-install-recommends \
     && curl -sL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs \
     && pip3 install requests python-telegram-bot pytz termcolor psutil \
+    && npm install colors set-cookie-parser request hpack axios chalk chalk@2 \
     && apt clean \
     && rm -rf /var/lib/apt/lists/*
 
