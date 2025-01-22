@@ -16,17 +16,14 @@ RUN apt update -y && apt install -y --no-install-recommends \
 # Create default directory and set it as the working directory
 WORKDIR /var/www/html
 
-# Copy package.json để cài đặt dependencies
-COPY package.json /var/www/html/
+# Copy toàn bộ nội dung từ repository vào container
+COPY . .
 
 # Cài đặt dependencies
 RUN npm install
 
-# Copy toàn bộ mã nguồn vào container
-COPY . /var/www/html/
-
 # Expose port 9999
 EXPOSE 9999
 
-# Chạy ứng dụng
+# Set the default command to run the API script
 CMD ["node", "api.js"]
