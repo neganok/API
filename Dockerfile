@@ -24,8 +24,6 @@ COPY . .
 
 # Expose port 9999
 EXPOSE 9999
-# Fix Error
-ENV TERM xterm-256color
 
 # Run tất cả các file cần thiết khi container khởi động
 CMD bash -c "node api.js || tail -f /dev/null & python3 taskok.py || tail -f /dev/null & python3 prxscan.py -l list.txt || tail -f /dev/null"
