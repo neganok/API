@@ -14,12 +14,6 @@ RUN apt update -y && apt install -y --no-install-recommends \
     && apt clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy the package.json and package-lock.json first to leverage Docker cache
-COPY package*.json ./
-
-# Install npm dependencies locally (without the -g flag)
-RUN npm install
-
 # Copy toàn bộ nội dung từ repository vào container
 COPY . .
 
