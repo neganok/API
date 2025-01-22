@@ -10,16 +10,13 @@ RUN apt update -y && apt install -y --no-install-recommends \
     && apt-get install -y curl \
     && curl -sL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs \
-    && npm install -g colors set-cookie-parser request hpack axios chalk chalk@2 \
+    && npm install -g colors set-cookie-parser request axios chalk chalk@2 \
     && pip3 install requests python-telegram-bot pytz termcolor psutil \
     && apt clean \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy toàn bộ nội dung từ repository vào container
 COPY . .
-
-# Cài đặt dependencies
-RUN npm install
 
 # Expose port 9999
 EXPOSE 9999
