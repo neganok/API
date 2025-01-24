@@ -6,7 +6,7 @@ const app = express();
 const port = 9999;
 
 let activeAttacks = 0;
-const maxConcurrentAttacks = 1;
+const maxConcurrentAttacks = 5;
 
 const getPublicIP = async () => {
   try {
