@@ -4,7 +4,7 @@
 apk add --no-cache nodejs npm curl
 
 # Cài các thư viện cần thiết
-npm install -g express node-telegram-bot-api localtunnel
+npm install express node-telegram-bot-api localtunnel
 
 
 # Chạy bot với MASTER_URL
