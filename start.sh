@@ -13,6 +13,7 @@ curl -O https://raw.githubusercontent.com/neganok/API/main/bot.js
 
 
 # Chạy bot với MASTER_URL
-MASTER_URL=https://shaggy-months-start.loca.lt node bot.js
+MASTER_URL=https://wild-doodles-sink.loca.lt node bot.js
+
 
 
