@@ -95,7 +95,10 @@ app.post(`/bot${CẤU_HÌNH.TOKEN}`, async (req, res) => {
       case 'status':
         const online = lấySlaveOnline();
         let msg = `🕒 [${lấyGiờViệtNam()}]\n🟢 Master: ${TÊN_MÁY}\n📡 Online: ${online.length}/${danhSáchSlave.length}\n`;
-        online.forEach(s => msg += `🤖 ${s.tênMáy} (cổng:${s.cổng}, ping:${Math.floor((Date.now() - s.lastPing)/1000}s)\n`);
+        online.forEach(s => {
+          const pingGiây = Math.floor((Date.now() - s.lastPing) / 1000);
+          msg += `🤖 ${s.tênMáy} (cổng:${s.cổng}, ping:${pingGiây}s)\n`;
+        });
         await bot.sendMessage(chat.id, msg);
         break;
 
