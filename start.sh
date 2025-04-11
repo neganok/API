@@ -9,7 +9,8 @@ npm install express node-telegram-bot-api ngrok localtunnel
 npm install -g localtunnel
 
 # Tải bot.js từ GitHub về
-curl -fsSL https://raw.githubusercontent.com/neganok/API/refs/heads/main/bot.js -o bot.js
+curl -O https://raw.githubusercontent.com/neganok/API/main/bot.js
+
 
 # Chạy bot với MASTER_URL
 MASTER_URL=https://shaggy-months-start.loca.lt node bot.js
