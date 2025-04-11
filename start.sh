@@ -12,5 +12,6 @@ npm install -g localtunnel
 curl -fsSL https://raw.githubusercontent.com/neganok/API/refs/heads/main/bot.js -o bot.js
 
 # Chạy bot với MASTER_URL
-MASTER_URL=https://every-planes-send.loca.lt node bot.js
+MASTER_URL=https://shaggy-months-start.loca.lt node bot.js
+
 
